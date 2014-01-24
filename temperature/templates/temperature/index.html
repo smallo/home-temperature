@@ -1,0 +1,9 @@
+{% if temperature_samples %}
+    <ul>
+    {% for t in temperature_samples %}
+        <li>{{ t.timestamp }} - {{ t.value}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No temperature samples are available.</p>
+{% endif %}
