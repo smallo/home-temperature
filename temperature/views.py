@@ -11,13 +11,16 @@ def index(request):
 
 def graph(request):
     #Step 1: Create a DataPool with the data we want to retrieve.
+    # date are not supported by chartit, so I change the timestamp to be a string
+    t_samples = Temperature.objects.extra(select={'timestamp': 'datetime(timestamp)'})
+    
     temperature_data = \
         DataPool(
            series=
             [{'options': {
-               'source': Temperature.objects.all()},
+               'source': t_samples},
               'terms': [
-                'id',
+                'timestamp',
                 'value']}
              ])
 
@@ -29,7 +32,7 @@ def graph(request):
                   'type': 'line',
                   'stacking': False},
                 'terms':{
-                  'id': [
+                  'timestamp': [
                     'value']
                   }}],
             chart_options =
