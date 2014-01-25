@@ -1,0 +1,13 @@
+<head>
+    <!-- code to include the highcharts and jQuery libraries goes here -->
+    {% load staticfiles %}
+    <script src='{% static "jquery-1.11.0.min.js" %}' type="text/javascript"></script>
+    <script src='{% static "highcharts.js" %}' type="text/javascript"></script>
+    <!-- load_charts filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+    {% load chartit %}
+    {{ temperature_chart|load_charts:"container" }}
+</head>
+<body>
+    <div id='container'> Chart will be rendered here </div>
+</body>
