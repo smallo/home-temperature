@@ -20,4 +20,4 @@ class Command(NoArgsCommand):
 
         global next_call
         next_call = next_call + 10
-        threading.Timer(next_call - time.time(), self.handle).start()
+        threading.Timer(next_call - time.time(), self.handle_noargs).start()
