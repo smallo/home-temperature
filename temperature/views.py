@@ -1,5 +1,6 @@
 from django.shortcuts import render, render_to_response
 from chartit import DataPool, Chart
+from datetime import datetime, timedelta
 
 from models import Temperature
 
@@ -11,8 +12,12 @@ def index(request):
 
 def graph(request):
     #Step 1: Create a DataPool with the data we want to retrieve.
+
+    # Only get temperature from last day
+    begin_time = datetime.now() - timedelta(days=1)
+
     # date are not supported by chartit, so I change the timestamp to be a string
-    t_samples = Temperature.objects.extra(select={'timestamp': 'datetime(timestamp)'})
+    t_samples = Temperature.objects.filter(timestamp__gt=begin_time).extra(select={'timestamp': 'datetime(timestamp)'})
     
     temperature_data = \
         DataPool(

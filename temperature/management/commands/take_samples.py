@@ -19,5 +19,5 @@ class Command(NoArgsCommand):
         readers.take_sample()
 
         global next_call
-        next_call = next_call + 10
+        next_call = next_call + 60
         threading.Timer(next_call - time.time(), self.handle_noargs).start()
