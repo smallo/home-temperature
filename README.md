@@ -27,6 +27,7 @@ pi@raspberrypi /usr/local/lib/python2.7/dist-packages/chartit/templatetags $ sud
 
 URLs
 ====
- - http://192.168.1.41:8000/temperature/graph/
- - http://192.168.1.41:8000/temperature/
- - http://192.168.1.41:8000/admin
+ - http://erio.dyndns.org/temperature/graph
+ - http://localhost:8000/temperature/graph/
+ - http://localhost:8000/temperature/
+ - http://localhost:8000/admin
