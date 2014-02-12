@@ -10,9 +10,11 @@ git clone https://github.com/smallo/home-temperature
 sudo apt-get install python-pip
 sudo pip install -r requirements.txt 
 python manage.py syncdb
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8000 --noreload
 python manage.py take_samples
 ```
+
+--noreload: this option is used to avoid a continuous usage of CPU around 10%
 
 FIX
 ---
