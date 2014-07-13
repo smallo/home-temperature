@@ -5,10 +5,33 @@ Use a Raspberry to read the temperature from a sensor, store it and show some gr
 
 Installation
 ============
+Load 1-wire bus kernel modules:
 ```shell
-git clone https://github.com/smallo/home-temperature
+sudo modprobe w1_gpio 
+sudo modprobe w1_therm
+```
+
+For loading the modules at boot time:
+```shell
+sudo vi /etc/modules
+w1_gpio
+w1_therm
+```
+
+Install python libraries and run the server
+```shell
+sudo apt-get install python-dev
+sudo apt-get install python-rpi.gpio
+
 sudo apt-get install python-pip
-sudo pip install -r requirements.txt 
+sudo pip install virtualenv
+
+git clone https://github.com/smallo/home-temperature
+cd home-temperature
+
+virtualenv ./tmp/venv/home-temperature
+source ./tmp/venv/home-temperature/bin/activate
+pip install -r requirements.txt 
 python manage.py syncdb
 python manage.py runserver 0.0.0.0:8000 --noreload
 python manage.py take_samples
