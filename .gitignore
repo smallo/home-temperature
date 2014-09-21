@@ -1,4 +1,4 @@
 tmp
-home_temperature.sqlite3
-home_temperature.sqlite3-journal
+*.sqlite3
+*.sqlite3-journal
 *.pyc

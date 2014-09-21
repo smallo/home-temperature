@@ -19,7 +19,7 @@ class TemperatureDaily(models.Model):
     max_value = models.FloatField()
     
 class TemperatureMonthly(models.Model):
-    day = models.CharField(max_length=6)
+    month = models.CharField(max_length=6)
     n_samples = models.IntegerField()
     sum_value = models.FloatField()
     min_value = models.FloatField()

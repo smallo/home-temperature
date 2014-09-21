@@ -55,11 +55,10 @@ def take_sample():
     # Update hourly aggregate
     hour = time.strftime('%Y%m%d%H')
     hour_obj = TemperatureHourly.objects.filter(hour=hour)
-    if len(hour_obj == 0):
+    if len(hour_obj) == 0:
         # This is the first measure we have for this hour
-        TemperatureHourly.objects.create(hour=hour, n_samples=1,
-                average_value=temperature, min_value=temperature, max_value=temperature)
-    elif:
+        TemperatureHourly.objects.create(hour=hour, n_samples=1, sum_value=temperature, min_value=temperature, max_value=temperature)
+    else:
         # Let's update the value
         hour_obj = hour_obj[0]
         hour_obj.n_samples += 1
@@ -74,11 +73,10 @@ def take_sample():
     # TODO: this is duplicated code
     day = time.strftime('%Y%m%d')
     day_obj = TemperatureDaily.objects.filter(day=day)
-    if len(day_obj == 0):
+    if len(day_obj) == 0:
         # This is the first measure we have for this day
-        TemperatureDaily.objects.create(day=day, n_samples=1,
-                average_value=temperature, min_value=temperature, max_value=temperature)
-    elif:
+        TemperatureDaily.objects.create(day=day, n_samples=1, sum_value=temperature, min_value=temperature, max_value=temperature)
+    else:
         # Let's update the value
         day_obj = day_obj[0]
         day_obj.n_samples += 1
@@ -91,13 +89,12 @@ def take_sample():
 
     # Update month aggregate
     # TODO: this is duplicated code
-    month = time.strftime('%Y%m%d')
+    month = time.strftime('%Y%m')
     month_obj = TemperatureMonthly.objects.filter(month=month)
-    if len(month_obj == 0):
+    if len(month_obj) == 0:
         # This is the first measure we have for this month
-        TemperatureMonthly.objects.create(month=month, n_samples=1,
-                average_value=temperature, min_value=temperature, max_value=temperature)
-    elif:
+        TemperatureMonthly.objects.create(month=month, n_samples=1, sum_value=temperature, min_value=temperature, max_value=temperature)
+    else:
         # Let's update the value
         month_obj = month_obj[0]
         month_obj.n_samples += 1
