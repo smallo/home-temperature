@@ -41,11 +41,10 @@ python manage.py take_samples
 
 FIX
 ---
-Need to fix django-chartit (at least required for python 2.7.3 in Raspbian,
-not required for python 2.7.5 in OSX):
+Need to fix django-chartit:
 
 ```shell
-pi@raspberrypi /usr/local/lib/python2.7/dist-packages/chartit/templatetags $ sudo vi chartit.py
+$ vi [virtualenv_home]/lib/python2.7/dist-packages/chartit/templatetags/chartit.py
 ```
  - in line 70: remove "use_decimal=True" 
 

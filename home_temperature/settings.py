@@ -1,4 +1,7 @@
 # Django settings for home_temperature project.
+REST_FRAMEWORK = {
+    'PAGINATE_BY': 366
+}
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -125,6 +128,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'temperature',
     'chartit',
+    'rest_framework',
 )
 
 # A sample logging configuration. The only tangible logging
