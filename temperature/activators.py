@@ -29,7 +29,7 @@ class ActivatorRpiGpio():
     def __init__(self, pin):
         self.pin = pin
         GPIO.setmode(GPIO.BCM) # Change this to GPIO.BOARD
-        GPIO.setup(pin, GPIO.OUT, initial=False)
+        GPIO.setup(pin, GPIO.OUT)
 
     def activate(self):
         GPIO.output(self.pin, True)

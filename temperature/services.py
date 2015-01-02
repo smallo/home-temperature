@@ -63,9 +63,9 @@ def activate_heater_if_necessary():
     print 'Heater status: {0}'.format(heater_status_obj.value)
 
     if is_heater_on:
-        should_activate = (current_temperature < (target_temperature - hysteresis_threshold))
-    else:
         should_activate = (current_temperature < (target_temperature + hysteresis_threshold))
+    else:
+        should_activate = (current_temperature < (target_temperature - hysteresis_threshold))
     print 'Should activate: {0}'.format(should_activate)
 
 

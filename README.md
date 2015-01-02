@@ -20,9 +20,6 @@ w1_therm
 
 Install python libraries and run the server
 ```shell
-sudo apt-get install python-dev
-sudo apt-get install python-rpi.gpio
-
 sudo apt-get install python-pip
 sudo pip install virtualenv
 
@@ -50,11 +47,15 @@ Executing
 =========
 *Live*:
 ```
+sudo su
+source ./tmp/venv/home-temperature/bin/activate
 python manage.py runserver 0.0.0.0:8000 --noreload
 python manage.py take_samples
 ```
 
---noreload: this option is used to avoid a continuous usage of CPU around 10%
+Note:
+* --noreload: this option is used to avoid a continuous usage of CPU around 10%
+* sudo it's required by RPi.GPIO
 
 
 *Development environment* (uses mocks for temperature reader and GPIO):
