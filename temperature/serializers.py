@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from models import Temperature, TemperatureHourly, TemperatureDaily, TemperatureMonthly
+from models import Temperature, TemperatureHourly, TemperatureDaily, TemperatureMonthly, Configuration
 
 class TemperatureSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -21,3 +21,8 @@ class TemperatureMonthlySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TemperatureMonthly
         fields = ('month', 'n_samples', 'sum_value', 'min_value', 'max_value')
+
+class ConfigurationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Configuration
+        fields = ('key', 'value')

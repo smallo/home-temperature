@@ -9,6 +9,7 @@ router.register(r'temperatures', views_api.TemperatureViewSet, base_name='temper
 router.register(r'temperaturehourlys', views_api.TemperatureHourlyViewSet, base_name='temperaturehourlys')
 router.register(r'temperaturedailys', views_api.TemperatureDailyViewSet, base_name='temperaturedailys')
 router.register(r'temperaturemonthlys', views_api.TemperatureMonthlyViewSet, base_name='temperaturemonthlys')
+router.register(r'configurations', views_api.ConfigurationViewSet, base_name='configurations')
 
 # API endpoints
 urlpatterns = [

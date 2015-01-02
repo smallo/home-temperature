@@ -1,4 +1,7 @@
 # Django settings for home_temperature project.
+USE_MOCK = False
+GPIO_HEATER_ACTIVATION_PIN = 18
+
 REST_FRAMEWORK = {
     'PAGINATE_BY': 366
 }

@@ -26,5 +26,13 @@ class TemperatureMonthly(models.Model):
     max_value = models.FloatField()
 
 class Configuration(models.Model):
-    key = models.CharField(max_length=25)
+    MODE = 'mode'
+    TARGET_TEMPERATURE = 'target_temperature'
+    HYSTERESIS_THRESHOLD = 'hysteresis_threshold'
+    HEATER_STATUS = 'heater_status' # This is not realy a configuration field, this is for keeping the status of the heater
+    MODE_ON = 'on'
+    MODE_OFF = 'off'
+    HEATER_ON = 'on'
+    HEATER_OFF = 'off'
+    key = models.CharField(max_length=25, unique=True)
     value = models.CharField(max_length=200)

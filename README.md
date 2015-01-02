@@ -33,11 +33,8 @@ virtualenv ./tmp/venv/home-temperature
 source ./tmp/venv/home-temperature/bin/activate
 pip install -r requirements.txt 
 python manage.py syncdb
-python manage.py runserver 0.0.0.0:8000 --noreload
-python manage.py take_samples
+python manage.py loaddata temperature/fixtures/configuration.json
 ```
-
---noreload: this option is used to avoid a continuous usage of CPU around 10%
 
 FIX
 ---
@@ -47,6 +44,21 @@ Need to fix django-chartit:
 $ vi [virtualenv_home]/lib/python2.7/dist-packages/chartit/templatetags/chartit.py
 ```
  - in line 70: remove "use_decimal=True" 
+
+
+Executing
+=========
+*Live*:
+```
+python manage.py runserver 0.0.0.0:8000 --noreload
+python manage.py take_samples
+```
+
+--noreload: this option is used to avoid a continuous usage of CPU around 10%
+
+
+*Development environment* (uses mocks for temperature reader and GPIO):
+python manage.py runserver --setting=home_temperature.settings_dev
 
 
 URLs

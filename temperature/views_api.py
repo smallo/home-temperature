@@ -1,7 +1,9 @@
-from serializers import TemperatureSerializer, TemperatureHourlySerializer, TemperatureDailySerializer, TemperatureMonthlySerializer
+from models import Temperature, TemperatureHourly, TemperatureDaily, TemperatureMonthly, Configuration
+from services import set_mode, set_target_temperature
 from rest_framework import viewsets
+from serializers import TemperatureSerializer, TemperatureHourlySerializer, TemperatureDailySerializer,\
+                        TemperatureMonthlySerializer, ConfigurationSerializer
 
-from models import Temperature, TemperatureHourly, TemperatureDaily, TemperatureMonthly
 
 class TemperatureViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TemperatureSerializer
@@ -63,3 +65,19 @@ class TemperatureMonthlyViewSet(viewsets.ReadOnlyModelViewSet):
         if to_param is not None:
             queryset = queryset.filter(month__lte=to_param)
         return queryset
+
+class ConfigurationViewSet(viewsets.ModelViewSet):
+    lookup_field = 'key'
+    serializer_class = ConfigurationSerializer
+    queryset = Configuration.objects.all()
+
+    def perform_update(self, serializer):
+        if self.request.data['key'] == Configuration.MODE:
+            set_mode(serializer.validated_data['value'])
+        elif self.request.data['key'] == Configuration.TARGET_TEMPERATURE:
+            set_target_temperature(float(serializer.validated_data['value']))
+        elif self.request.data['key'] == Configuration.HEATER_STATUS:
+            # This is an internal status, so we don't want it to be modified through the API
+            return
+
+        serializer.save() #TODO: for mode and target_temperature we are saving twice; I needed to do for the doc API to be correctly updated
