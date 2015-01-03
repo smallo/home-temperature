@@ -39,6 +39,7 @@ def set_target_temperature(target_temperature):
 def activate_heater_if_necessary():
     # Get the current mode
     mode = Configuration.objects.filter(key=Configuration.MODE)[0].value
+    print 'Mode: {0}'.format(mode)
 
     if mode == Configuration.MODE_OFF:
         return

@@ -2,11 +2,17 @@ from django.shortcuts import render, render_to_response
 from chartit import DataPool, Chart
 from datetime import datetime, timedelta
 
-from models import Temperature
+from models import Temperature, Configuration
 
 def index(request):
-    temperature_samples = Temperature.objects.order_by('-timestamp')
-    context = { 'temperature_samples': temperature_samples }
+    current_temperature = Temperature.objects.order_by('-timestamp')[0]
+    heater_status = Configuration.objects.filter(key=Configuration.HEATER_STATUS)[0].value
+    target_temperature = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0].value
+    mode = Configuration.objects.filter(key=Configuration.MODE)[0].value
+    context = { 'current_temperature': current_temperature,
+                'heater_status': heater_status,
+                'target_temperature': target_temperature,
+                'mode': mode }
     return render(request, 'temperature/index.html', context)
 
 
