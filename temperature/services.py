@@ -41,9 +41,6 @@ def activate_heater_if_necessary():
     mode = Configuration.objects.filter(key=Configuration.MODE)[0].value
     print 'Mode: {0}'.format(mode)
 
-    if mode == Configuration.MODE_OFF:
-        return
-
     # Get current temperature
     current_temperature_obj = Temperature.objects.all().order_by('-timestamp')[0]
     #TODO: take into account timestamp, could be old!!!
@@ -64,17 +61,22 @@ def activate_heater_if_necessary():
     print 'Heater status: {0}'.format(heater_status_obj.value)
 
     if is_heater_on:
-        should_activate = (current_temperature < (target_temperature + hysteresis_threshold))
+        thermostat_on = (current_temperature < (target_temperature + hysteresis_threshold))
     else:
-        should_activate = (current_temperature < (target_temperature - hysteresis_threshold))
-    print 'Should activate: {0}'.format(should_activate)
+        thermostat_on = (current_temperature < (target_temperature - hysteresis_threshold))
+    print 'Is thermostat on?: {0}'.format(thermostat_on)
+
+    should_activate = thermostat_on and (mode == Configuration.MODE_ON)
+    print 'Should heater be on?: {0}'.format(should_activate)
 
 
     if (should_activate and not is_heater_on):
+        print 'activating heater'
         _activator.activate()
         heater_status_obj.value = Configuration.HEATER_ON
         heater_status_obj.save()
     elif (not should_activate and is_heater_on):
+        print 'deactivating heater'
         _activator.deactivate()
         heater_status_obj.value = Configuration.HEATER_OFF
         heater_status_obj.save()
