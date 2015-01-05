@@ -1,6 +1,5 @@
 from django import forms
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponseRedirect
 from chartit import DataPool, Chart
 from datetime import datetime, timedelta
 
@@ -11,6 +10,8 @@ from services import set_mode, set_target_temperature
 class SettingsForm(forms.Form):
     mode = forms.CharField(label='Mode', max_length=3)
     target_temperature = forms.FloatField(label='Target temperature')
+
+    error_css_class = 'alert alert-danger'
 
 
 def index(request):
