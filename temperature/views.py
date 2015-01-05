@@ -15,18 +15,18 @@ class SettingsForm(forms.Form):
 
 
 def index(request):
-    heater_status = Configuration.objects.filter(key=Configuration.HEATER_STATUS)[0].value
-    current_temperature = Temperature.objects.order_by('-timestamp')[0]
-
     if request.method == 'POST':
         form = SettingsForm(request.POST)
         if form.is_valid():
-            set_mode(form.cleaned_data['mode'])
-            set_target_temperature(form.cleaned_data['target_temperature'])
+            set_mode(form.cleaned_data['mode'], False)
+            set_target_temperature(form.cleaned_data['target_temperature'], True)
     else:
         mode = Configuration.objects.filter(key=Configuration.MODE)[0].value
         target_temperature = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0].value
         form = SettingsForm(initial={'mode': mode, 'target_temperature': target_temperature})
+
+    heater_status = Configuration.objects.filter(key=Configuration.HEATER_STATUS)[0].value
+    current_temperature = Temperature.objects.order_by('-timestamp')[0]
 
     context = { 'current_temperature': current_temperature,
                 'heater_status': heater_status,

@@ -16,7 +16,7 @@ else:
     _activator = ActivatorRpiGpio(int(settings.GPIO_HEATER_ACTIVATION_PIN))
 
 
-def set_mode(mode):
+def set_mode(mode, doActivate=True):
     #First let's validate input data
     if((mode != Configuration.MODE_ON) and (mode != Configuration.MODE_OFF)):
         raise ValueError('mode could only be on or off')
@@ -25,15 +25,17 @@ def set_mode(mode):
     c.value = mode
     c.save()
 
-    activate_heater_if_necessary()
+    if doActivate:
+        activate_heater_if_necessary()
 
 
-def set_target_temperature(target_temperature):
+def set_target_temperature(target_temperature, doActivate=True):
     c = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0]
     c.value = target_temperature
     c.save()
 
-    activate_heater_if_necessary()
+    if doActivate:
+        activate_heater_if_necessary()
 
 
 def activate_heater_if_necessary():
