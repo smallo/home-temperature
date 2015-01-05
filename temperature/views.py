@@ -5,6 +5,7 @@ from chartit import DataPool, Chart
 from datetime import datetime, timedelta
 
 from models import Temperature, Configuration
+from services import set_mode, set_target_temperature
 
 
 class SettingsForm(forms.Form):
@@ -19,13 +20,8 @@ def index(request):
     if request.method == 'POST':
         form = SettingsForm(request.POST)
         if form.is_valid():
-            c = Configuration.objects.filter(key=Configuration.MODE)[0]
-            c.value = form.cleaned_data['mode']
-            c.save()
-
-            c = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0]
-            c.value = form.cleaned_data['target_temperature']
-            c.save()
+            set_mode(form.cleaned_data['mode'])
+            set_target_temperature(form.cleaned_data['target_temperature'])
     else:
         mode = Configuration.objects.filter(key=Configuration.MODE)[0].value
         target_temperature = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0].value
