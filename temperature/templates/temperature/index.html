@@ -33,8 +33,11 @@
         <h1>Settings</h1>
       </div>
       <h1>
-        <span class="label label-primary">{{ mode }}</span>
-        <span class="label label-primary">{{ target_temperature }}</span>
+        <form action="/temperature/" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Save" />
+        </form>
       </h1>
 
       <div class="page-header">
