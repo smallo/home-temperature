@@ -1,0 +1,30 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          home-temperature-runserver
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: home-temperature-runserver
+# Description:       Django server for home-temperature
+### END INIT INFO
+
+
+case "$1" in
+  start)
+    echo "Starting django server for home-temperature"
+    cd /home/pi/workspaces/home-temperature
+    ./runserver.sh > /var/log/home-temperature-runserver.log 2>&1 &
+    ;;
+  stop)
+    echo "Stopping django server for home-temperature"
+    pkill -f runserver
+    ;;
+  *)
+    echo "Usage: /etc/init.d/home-temperature-runserver {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

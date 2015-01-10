@@ -48,18 +48,30 @@ Executing
 *Live*:
 ```
 sudo su
-source ./tmp/venv/home-temperature/bin/activate
-python manage.py runserver 0.0.0.0:8000 --noreload
-python manage.py take_samples
+./runserver.sh
+./take_samples.sh
 ```
 
 Note:
-* --noreload: this option is used to avoid a continuous usage of CPU around 10%
 * sudo it's required by RPi.GPIO
 
 
 *Development environment* (uses mocks for temperature reader and GPIO):
 python manage.py runserver --setting=home_temperature.settings_dev
+
+
+Boot scripts
+============
+In order to runserver and take_samples to run when the system starts up:
+
+```
+sudo su
+cp ./scripts/home-temperature-runserver /etc/init.d
+update-rc.d home-temperature-runserver defaults
+
+cp ./scripts/home-temperature-take-samples /eyc/init.d
+update-rc.d home-temperature-take-samples defaults
+```
 
 
 URLs
