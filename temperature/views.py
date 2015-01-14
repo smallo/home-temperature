@@ -8,7 +8,7 @@ from services import set_mode, set_target_temperature
 
 
 class SettingsForm(forms.Form):
-    mode = forms.CharField(label='Mode', max_length=3)
+    mode = forms.BooleanField(label='Mode', required=False)
     target_temperature = forms.FloatField(label='Target temperature')
 
     error_css_class = 'alert alert-danger'
@@ -18,10 +18,10 @@ def index(request):
     if request.method == 'POST':
         form = SettingsForm(request.POST)
         if form.is_valid():
-            set_mode(form.cleaned_data['mode'], False)
+            set_mode(Configuration.MODE_ON if form.cleaned_data['mode'] else Configuration.MODE_OFF, False)
             set_target_temperature(form.cleaned_data['target_temperature'], True)
     else:
-        mode = Configuration.objects.filter(key=Configuration.MODE)[0].value
+        mode = Configuration.MODE_ON == Configuration.objects.filter(key=Configuration.MODE)[0].value
         target_temperature = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0].value
         form = SettingsForm(initial={'mode': mode, 'target_temperature': target_temperature})
 

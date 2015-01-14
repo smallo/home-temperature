@@ -6,17 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/static/favicon.ico">
+    <link rel="icon" href="/static/favicon.ico"> <!-- not working -->
 
     <title>Home temperature</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap theme -->
-    <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/static/extendbootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="/static/theme.css" rel="stylesheet">
+    <!-- Extend bootstrap -->
+    <link href="/static/extendbootstrap/css/extend.css" rel="stylesheet">
+    <link href="/static/extendbootstrap/css/checkbox-radio-switch.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,40 +24,117 @@
     <![endif]-->
   </head>
 
-  <body role="document">
+<body data-twttr-rendered="true" cz-shortcut-listen="true" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
 
-    <div class="container theme-showcase" role="main">
 
-      <div class="page-header">
+<!-- Navbar
+  ================================================== -->
+<div class="navbar navbar-fixed-top">
+ <div class="navbar-inner">
+   <div class="container">
+     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+       <span class="icon-bar"></span>
+     </a>
+     <a class="brand" href="../">Home temperature</a>
+     <div class="nav-collapse collapse" id="main-menu"></div>
+   </div>
+ </div>
+</div>
+
+<div class="container" id="top">
+
+<!-- Contents
+  ================================================== -->
+<div class="row-fluid">
+  <!-- Settings -->
+  <div class="span6">
+    <div class="box-wrap">
+      <div class="box-heading">
         <h1>Settings</h1>
       </div>
-      <form action="/temperature/" method="post">
-        {% csrf_token %}
-        <div class="table-responsive">
-          <table class="table">
-            {{ form }}
-          </table>
-        </div>
-        <input type="submit" class="btn btn-default" value="Save" />
-      </form>
+      <div class="box-inner">
+        <form action="/temperature/" method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
 
-      <div class="page-header">
+          <div class="row-fluid">
+            <div class="span12">
+              {{ form.mode.errors }}
+              <div class="onoffswitch">
+                <!-- {{ form.mode }} Don't know how to set the class of input element -->
+                <input type="checkbox" name="{{ form.mode.name }}" class="onoffswitch-checkbox" id="{{ form.mode.id_for_label }}" {% if form.mode.value %}checked{% endif %}>
+                <label class="onoffswitch-label" for="{{ form.mode.id_for_label }}">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row-fluid">
+            <div class="span12">
+              {{ form.target_temperature.errors }}
+              <label for="{{ form.target_temperature.id_for_label }}">Target temperature:</label>
+              {{ form.target_temperature }}
+            </div>
+          </div>
+
+          <input type="submit" class="btn btn-default" value="Save" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="span6">
+    <div class="box-wrap">
+      <div class="box-heading">
         <h1>Status</h1>
       </div>
-      <h1>
-        <span class="label label-primary">{{ heater_status }}</span>
-        <span class="label label-primary">{{ current_temperature.value }}</span>
-        @
-        <span class="label label-default">{{ current_temperature.timestamp }}</span>
-      </h1>
+      <div class="box-inner">
+        <div class="row-fluid">
+          <div class="span12">
+            <span class="label">{{ heater_status }}</span>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span2">
+            <span class="label label-info">{{ current_temperature.value }}</span>
+          </div>
+          <div class="span1">
+            <span class="label label-info">@</span>
+          </div>
+          <div class="span6">
+            <span class="label label-info">{{ current_temperature.timestamp }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    </div> <!-- /container -->
+<div class="double-border"></div>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-  </body>
+<!-- Footer
+================================================== -->
+  <footer id="footer">
+    <p class="pull-right"><a href="#top">Back to top</a></p>
+    <div class="links">
+      <a href="https://github.com/smallo/home-temperature">Source code @ github</a>
+    </div>
+  </footer>
+
+</div><!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/static/extendbootstrap/js/bootstrap.min.js"></script>
+
+</body>
 </html>
