@@ -2,3 +2,4 @@ django==1.7.1
 django_chartit==0.1
 djangorestframework==3.0.2
 RPi.GPIO==0.5.8
+MySQL-python==1.2.5

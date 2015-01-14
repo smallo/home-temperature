@@ -5,6 +5,18 @@ Use a Raspberry to read the temperature from a sensor, store it and show some gr
 
 Installation
 ============
+Install MySQL DB:
+```
+sudo apt-get install mysql-server
+sudo apt-get install libmysqlclient-dev
+
+mysql -u root -p
+
+create database home_temperature;
+create user 'home'@'localhost' identified by 'temperature';
+grant all privileges on home_temperature.* TO 'home'@'localhost' identified by 'temperature';
+```
+
 Load 1-wire bus kernel modules:
 ```shell
 sudo modprobe w1_gpio 
