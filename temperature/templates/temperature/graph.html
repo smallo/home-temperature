@@ -1,13 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!-- code to include the highcharts and jQuery libraries goes here -->
-    {% load staticfiles %}
-    <script src='{% static "jquery-1.11.0.min.js" %}' type="text/javascript"></script>
-    <script src='{% static "highcharts.js" %}' type="text/javascript"></script>
-    <!-- load_charts filter takes a comma-separated list of id's where -->
-    <!-- the charts need to be rendered to                             -->
-    {% load chartit %}
-    {{ temperature_chart|load_charts:"container" }}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="/static/favicon.ico"> <!-- not working -->
+
+<title>Home temperature</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/static/extendbootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Extend bootstrap -->
+<link href="/static/extendbootstrap/css/extend.css" rel="stylesheet">
+<link href="/static/extendbootstrap/css/checkbox-radio-switch.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+window.onload = function () {
+var chart = new CanvasJS.Chart("chartContainer");
+
+chart.options.axisY = { suffix: "ºC" };
+chart.options.title = { text: "Daily temperature" };
+chart.options.axisX = { valueFormatString: "DD/MM/YYYY", labelAngle: -50 };
+
+var averageSeries = {
+    type: "spline",
+    legendText: "Average",
+    color: "green",
+    showInLegend: true,
+};
+
+var minSeries = {
+    type: "spline",
+    legendText: "Minimum",
+    color: "blue",
+    showInLegend: true,
+};
+
+var maxSeries = {
+    type: "spline",
+    legendText: "Maximum",
+    color: "red",
+    showInLegend: true,
+};
+
+chart.options.data = [];
+chart.options.data.push(averageSeries);
+chart.options.data.push(minSeries);
+chart.options.data.push(maxSeries);
+
+$.ajax({
+    url: "/temperature/api/temperaturedailys",
+    data: {
+        format: "json"
+    },
+    success: function( apiData ) {
+        var averagePoints = [];
+        var minPoints = [];
+        var maxPoints = [];
+        var t = apiData.results;
+
+        for (var i = 0; i < t.length; i++) {
+            // Parse date
+            dayStr = t[i].day
+            day = new Date(dayStr.substring(0,4), dayStr.substring(4,6)-1, dayStr.substring(6,8));
+
+            averagePoints.push({
+                x: day,
+                y: t[i].sum_value / t[i].n_samples
+            });
+            minPoints.push({
+                x: day,
+                y: t[i].min_value
+            });
+            maxPoints.push({
+                x: day,
+                y: t[i].max_value
+            });
+        }
+
+        averageSeries.dataPoints = averagePoints;
+        minSeries.dataPoints = minPoints;
+        maxSeries.dataPoints = maxPoints;
+        chart.render();
+    }
+});
+} // end of - window.onload
+</script>
 </head>
-<body>
-    <div id='container'> Chart will be rendered here </div>
+
+<body data-twttr-rendered="true" cz-shortcut-listen="true" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+
+
+<!-- Navbar
+    ================================================== -->
+ <div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container">
+       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+       <a class="brand" href="/temperature">Termostat</a>
+       <a class="brand" href="/temperature/graph">Graphs</a>
+       <div class="nav-collapse collapse" id="main-menu">
+       </div>
+     </div>
+   </div>
+ </div>
+
+<div class="container" id="top">
+
+
+<!-- Contents
+  ================================================== -->
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+<div class="double-border"></div>
+
+
+<!-- Footer
+================================================== -->
+  <footer id="footer">
+    <p class="pull-right"><a href="#top">Back to top</a></p>
+    <div class="links">
+      <a href="https://github.com/smallo/home-temperature">Source code @ github</a>
+    </div>
+  </footer>
+
+</div><!-- /container -->
+
+
+<!-- JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/canvasjs/canvasjs.min.js"></script>
+
 </body>
+</html>
