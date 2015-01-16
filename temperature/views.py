@@ -1,6 +1,5 @@
 from django import forms
 from django.shortcuts import render, render_to_response
-from chartit import DataPool, Chart
 from datetime import datetime, timedelta
 
 from models import Temperature, Configuration
@@ -36,41 +35,5 @@ def index(request):
 
 
 def graph(request):
-    #Step 1: Create a DataPool with the data we want to retrieve.
-
-    # Only get temperature from last day
-    begin_time = datetime.now() - timedelta(days=1)
-
-    # date are not supported by chartit, so I change the timestamp to be a string
-    t_samples = Temperature.objects.filter(timestamp__gt=begin_time).extra(select={'timestamp': 'datetime(timestamp)'})
-    
-    temperature_data = \
-        DataPool(
-           series=
-            [{'options': {
-               'source': t_samples},
-              'terms': [
-                'timestamp',
-                'value']}
-             ])
-
-    #Step 2: Create the Chart object
-    cht = Chart(
-            datasource = temperature_data,
-            series_options =
-              [{'options':{
-                  'type': 'line',
-                  'stacking': False},
-                'terms':{
-                  'timestamp': [
-                    'value']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Home temperature evolution'},
-               'xAxis': {
-                    'title': {
-                       'text': 'Time'}}})
-
-    #Step 3: Send the chart object to the template.
-    return render_to_response('temperature/graph.html', {'temperature_chart': cht})
+    # Nothing to do here, but forward to html
+    return render_to_response('temperature/graph.html')

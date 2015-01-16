@@ -45,15 +45,6 @@ python manage.py syncdb
 python manage.py loaddata temperature/fixtures/configuration.json
 ```
 
-FIX
----
-Need to fix django-chartit:
-
-```shell
-$ vi [virtualenv_home]/lib/python2.7/dist-packages/chartit/templatetags/chartit.py
-```
- - in line 70: remove "use_decimal=True" 
-
 
 Executing
 =========
