@@ -6,137 +6,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/static/favicon.ico"> <!-- not working -->
+    <link rel="icon" href="/static/img/fire.png"> <!-- not working -->
 
     <title>Home temperature</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/extendbootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
 
-    <!-- Extend bootstrap -->
-    <link href="/static/extendbootstrap/css/extend.css" rel="stylesheet">
-    <link href="/static/extendbootstrap/css/checkbox-radio-switch.css" rel="stylesheet">
+    <!-- Specific css for this home temperature -->
+    <link href="/static/css/home-temperature.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script type="text/javascript">
+      window.onload = function () {
+        $("[name='{{ form.mode.name }}']").bootstrapSwitch();
+        // TODO: set the switch data-size to "large"
+
+        var slider = new Slider("#{{ form.target_temperature.id_for_label }}", {
+          tooltip: 'always'
+        });
+      }
+    </script>
   </head>
 
-<body data-twttr-rendered="true" cz-shortcut-listen="true" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
 
-
-<!-- Navbar
-    ================================================== -->
- <div class="navbar navbar-fixed-top">
-   <div class="navbar-inner">
-     <div class="container">
-       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-         <span class="icon-bar"></span>
-         <span class="icon-bar"></span>
-         <span class="icon-bar"></span>
-       </a>
-       <a class="brand" href="/temperature">Termostat</a>
-       <a class="brand" href="/temperature/graph">Graphs</a>
-       <div class="nav-collapse collapse" id="main-menu">
-       </div>
-     </div>
-   </div>
- </div>
-
+<body>
 <div class="container" id="top">
 
-<!-- Contents
-  ================================================== -->
-<div class="row-fluid">
-  <!-- Settings -->
-  <div class="span6">
-    <div class="box-wrap">
-      <div class="box-heading">
-        <h1>Settings</h1>
-      </div>
-      <div class="box-inner">
-        <form action="/temperature/" method="post">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-
-          <div class="row-fluid">
-            <div class="span12">
-              {{ form.mode.errors }}
-              <div class="onoffswitch">
-                <!-- {{ form.mode }} Don't know how to set the class of input element -->
-                <input type="checkbox" name="{{ form.mode.name }}" class="onoffswitch-checkbox" id="{{ form.mode.id_for_label }}" {% if form.mode.value %}checked{% endif %}>
-                <label class="onoffswitch-label" for="{{ form.mode.id_for_label }}">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="row-fluid">
-            <div class="span12">
-              {{ form.target_temperature.errors }}
-              <label for="{{ form.target_temperature.id_for_label }}">Target temperature:</label>
-              {{ form.target_temperature }}
-            </div>
-          </div>
-
-          <input type="submit" class="btn btn-default" value="Save" />
-        </form>
-      </div>
+<!-- Navbar **************************************** -->
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/temperature">Home temperature</a>
     </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/temperature">Thermostat</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Graphs <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/temperature/graph">Daily</li>
+            <li><a href="/temperature/graph/hourly">Hourly</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
+
+
+<!-- Contents ************************************** -->
+<div class="jumbotron">
+<form action="/temperature/" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  <div class="well">
+      {{ form.mode.errors }}
+      {{ form.mode }}
+      {% if heater_status == 'on' %}
+        <img src="/static/img/fire.png" style="height:35px">
+      {% endif %}
   </div>
 
-  <!-- Status -->
-  <div class="span6">
-    <div class="box-wrap">
-      <div class="box-heading">
-        <h1>Status</h1>
-      </div>
-      <div class="box-inner">
-        <div class="row-fluid">
-          <div class="span12">
-            <span class="label">{{ heater_status }}</span>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span2">
-            <span class="label label-info">{{ current_temperature.value }}</span>
-          </div>
-          <div class="span1">
-            <span class="label label-info">@</span>
-          </div>
-          <div class="span6">
-            <span class="label label-info">{{ current_temperature.timestamp }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="well">
+    {{ form.target_temperature.errors }}
+    <h1>
+      <img src="/static/img/thermometer.png" style="height:64px">
+      <!--{{ form.target_temperature }}-->
+      <input name="{{ form.target_temperature.name }}" id="{{ form.target_temperature.id_for_label }}" data-slider-id="target-temperature-slider" type="number" data-slider-min="18" data-slider-max="22" data-slider-step="0.1" data-slider-value="{{ form.target_temperature.value }}"/>
+    </h1>
   </div>
+
+  <div class="well">
+    <span class="label label-warning">{{ current_temperature.value }}º ({{ current_temperature.timestamp|date:"H:i d/m/Y" }})</span>
+  </div>
+
+  <div class="row">
+    <input type="submit" class="btn btn-primary" value="Apply" />
+  </div>
+</form>
 </div>
 
-<div class="double-border"></div>
+<!-- Footer **************************************** -->
+<footer>
+  <p class="pull-right"><a href="#top">Back to top</a></p>
+  <div class="links">
+    <a href="https://github.com/smallo/home-temperature">Source code @ github</a> ** 
+    <a href="http://iconka.com/">Iconka</a> ** 
+    <a href="http://www.aha-soft.com/free-icons/free-3d-glossy-icon-set/">aha-soft</a>
+  </div>
+</footer>
 
-
-<!-- Footer
-================================================== -->
-  <footer id="footer">
-    <p class="pull-right"><a href="#top">Back to top</a></p>
-    <div class="links">
-      <a href="https://github.com/smallo/home-temperature">Source code @ github</a>
-    </div>
-  </footer>
 
 </div><!-- /container -->
 
-
-<!-- Bootstrap core JavaScript
-================================================== -->
+<!-- Bootstrap core JavaScript******************** -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="/static/extendbootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-slider.min.js"></script>
 
 </body>
 </html>

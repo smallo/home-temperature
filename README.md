@@ -58,9 +58,11 @@ sudo su
 Note:
 * sudo it's required by RPi.GPIO
 
+*Development environment* (sqlite instead of MySQL and uses mocks for temperature reader and GPIO):
+`python manage.py runserver --setting=home_temperature.settings_dev`
 
-*Development environment* (uses mocks for temperature reader and GPIO):
-python manage.py runserver --setting=home_temperature.settings_dev
+Or if you want to listen to all network interfaces:
+`python manage.py runserver 0.0.0.0:8000 --setting=home_temperature.settings_dev`
 
 
 Boot scripts

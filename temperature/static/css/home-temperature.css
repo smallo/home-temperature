@@ -1,0 +1,26 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+.well {
+  background-color: #D0D0D0;
+}
+
+#target-temperature-slider .slider-selection {
+  background: #BABABA;
+}

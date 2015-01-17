@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/img/fire.png"> <!-- not working -->
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="icon" href="/static/favicon.ico"> <!-- not working -->
+    <title>Home temperature</title>
 
-<title>Home temperature</title>
+    <!-- CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Bootstrap core CSS -->
-<link href="/static/extendbootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Specific css for this home temperature -->
+    <link href="/static/css/home-temperature.css" rel="stylesheet">
 
-<!-- Extend bootstrap -->
-<link href="/static/extendbootstrap/css/extend.css" rel="stylesheet">
-<link href="/static/extendbootstrap/css/checkbox-radio-switch.css" rel="stylesheet">
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 <script type="text/javascript">
 window.onload = function () {
@@ -98,32 +96,38 @@ $.ajax({
 </script>
 </head>
 
-<body data-twttr-rendered="true" cz-shortcut-listen="true" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
-
-
-<!-- Navbar
-    ================================================== -->
- <div class="navbar navbar-fixed-top">
-   <div class="navbar-inner">
-     <div class="container">
-       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-         <span class="icon-bar"></span>
-         <span class="icon-bar"></span>
-         <span class="icon-bar"></span>
-       </a>
-       <a class="brand" href="/temperature">Termostat</a>
-       <a class="brand" href="/temperature/graph">Graphs</a>
-       <div class="nav-collapse collapse" id="main-menu">
-       </div>
-     </div>
-   </div>
- </div>
-
+<body>
 <div class="container" id="top">
 
+<!-- Navbar **************************************** -->
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/temperature">Home temperature</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/temperature">Thermostat</a></li>
+        <li class="dropdown active">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Graphs <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li class="active"><a href="/temperature/graph">Daily</li>
+            <li><a href="/temperature/graph/hourly">Hourly</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
 
-<!-- Contents
-  ================================================== -->
+
+<!-- Contents ************************************** -->
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
 <div class="double-border"></div>
@@ -131,12 +135,15 @@ $.ajax({
 
 <!-- Footer
 ================================================== -->
-  <footer id="footer">
-    <p class="pull-right"><a href="#top">Back to top</a></p>
-    <div class="links">
-      <a href="https://github.com/smallo/home-temperature">Source code @ github</a>
-    </div>
-  </footer>
+<!-- Footer **************************************** -->
+<footer>
+  <p class="pull-right"><a href="#top">Back to top</a></p>
+  <div class="links">
+    <a href="https://github.com/smallo/home-temperature">Source code @ github</a> ** 
+    <a href="http://iconka.com/">Iconka</a> ** 
+    <a href="http://www.aha-soft.com/free-icons/free-3d-glossy-icon-set/">aha-soft</a>
+  </div>
+</footer>
 
 </div><!-- /container -->
 
@@ -144,8 +151,9 @@ $.ajax({
 <!-- JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="/static/js/canvasjs/canvasjs.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/canvasjs.min.js"></script>
 
 </body>
 </html>
