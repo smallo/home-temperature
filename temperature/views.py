@@ -32,8 +32,3 @@ def index(request):
                 'form': form}
 
     return render(request, 'temperature/index.html', context)
-
-
-def graph(request):
-    # Nothing to do here, but forward to html
-    return render_to_response('temperature/graph.html')

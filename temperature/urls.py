@@ -15,8 +15,6 @@ router.register(r'configurations', views_api.ConfigurationViewSet, base_name='co
 urlpatterns = [
     # ex: /temperature
     url(r'^$', views.index, name='index'),
-    # ex: /temperature/graph/
-    url(r'^graph/$', views.graph, name='graph'),
     # ex: /temperature/api
     url(r'^api/', include(router.urls)),
 ]
