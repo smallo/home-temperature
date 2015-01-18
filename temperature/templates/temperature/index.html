@@ -58,7 +58,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Graphs <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/static/graph-daily.html">Daily</li>
+            <li><a href="/static/graph-daily.html">Daily</a></li>
             <li><a href="/static/graph-hourly.html">Hourly</a></li>
           </ul>
         </li>
@@ -70,13 +70,14 @@
 
 <!-- Contents ************************************** -->
 <div class="jumbotron">
-<form action="/temperature/" method="post">
+<form id="form" action="/temperature/" method="post">
   {% csrf_token %}
   {{ form.non_field_errors }}
 
   <div class="well">
       {{ form.mode.errors }}
-      {{ form.mode }}
+      <!-- {{ form.mode }} maybe onchange can be done somewhere else -->
+      <input name="{{ form.mode.name}}" id="{{ form.mode.id_for_label }}" type="checkbox" onchange="$('#form').submit();" {{ form.mode.value|yesno:"checked,," }}>
       {% if heater_status == 'on' %}
         <img src="/static/img/fire.png" style="height:35px">
       {% endif %}
@@ -85,20 +86,16 @@
   <div class="well">
     {{ form.target_temperature.errors }}
     <h1>
-      <img src="/static/img/thermometer.png" style="height:64px">
       <!--{{ form.target_temperature }}-->
       <input name="{{ form.target_temperature.name }}" id="{{ form.target_temperature.id_for_label }}" data-slider-id="target-temperature-slider" type="number" data-slider-min="18" data-slider-max="22" data-slider-step="0.1" data-slider-value="{{ form.target_temperature.value }}"/>
+      <img src="/static/img/thermometer.png" style="height:64px">
     </h1>
-  </div>
-
-  <div class="well">
-    <h3>
+    <h4>
       <span class="label label-warning">{{ current_temperature.value }}º ({{ current_temperature.timestamp|date:"H:i d/m/Y" }})</span>
-    </h3>
-  </div>
-
-  <div class="row">
-    <input type="submit" class="btn btn-primary" value="Apply" />
+    </h6>
+    <div class="row">
+      <input type="submit" class="btn btn-primary" value="Apply" />
+    </div>
   </div>
 </form>
 </div>

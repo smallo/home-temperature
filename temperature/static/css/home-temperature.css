@@ -12,13 +12,12 @@ body {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.jumbotron .btn {
-  padding: 14px 24px;
-  font-size: 21px;
-}
-
 .well {
   background-color: #D0D0D0;
+}
+
+.row {
+  padding-top: 20px;
 }
 
 #target-temperature-slider .slider-selection {
