@@ -9,13 +9,13 @@ import glob, time
 
 
 class TempReaderMock():
-    MAX_TEMP = 40
-    MIN_TEMP = -5
+    def __init__(self):
+        self.last_temp = 20
+        self.max_step = 0.5
 
-    # Try using Temperature model????
     def get_temp(self):
-        t = round(random.random() * (self.MAX_TEMP - self.MIN_TEMP) + self.MIN_TEMP, 2)
-        return t
+        self.last_temp += (random.random()-0.5) * self.max_step
+        return self.last_temp
 
 
 class TempReaderDS18B20():

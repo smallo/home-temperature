@@ -12,8 +12,6 @@
 
     <!-- CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/bootstrap-switch.min.css" rel="stylesheet">
-    <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
 
     <!-- Specific css for this home temperature -->
     <link href="/static/css/home-temperature.css" rel="stylesheet">
@@ -24,18 +22,59 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script type="text/javascript">
-      window.onload = function () {
-        $("[name='{{ form.mode.name }}']").bootstrapSwitch();
-        // TODO: set the switch data-size to "large"
+<script type="text/javascript">
+window.onload = function () {
+var chart = new CanvasJS.Chart("chartContainer");
 
-        var slider = new Slider("#{{ form.target_temperature.id_for_label }}", {
-          tooltip: 'always'
-        });
-      }
-    </script>
-  </head>
+chart.options.axisY = { suffix: "ºC" };
+chart.options.title = { text: "Last day temperature" };
+chart.options.axisX = { valueFormatString: "HH:mm", labelAngle: -50 };
 
+var dataSeries = {
+    type: "line",
+    legendText: "Temperature",
+    color: "green",
+    showInLegend: true,
+};
+
+chart.options.data = [];
+chart.options.data.push(dataSeries);
+
+// Get current date, calculate one day before and format it for the API
+// /temperature/api/temperatures/?from=2015-01-22T20:11:0.0Z
+var now = new Date();
+now.setDate(now.getDate()-1); // Subtract one day
+var nowStr = 
+        now.getUTCFullYear() + "-" +
+        ("0" + (now.getUTCMonth()+1)).slice(-2) + "-" +
+        ("0" + now.getUTCDate()).slice(-2) + "T" +
+        ("0" + now.getUTCHours()).slice(-2) + ":" +
+        ("0" + now.getUTCMinutes()).slice(-2) + ":0.0Z";
+
+$.ajax({
+    url: "/temperature/api/temperatures",
+    data: {
+        from: nowStr,
+        format: "json"
+    },
+    success: function( apiData ) {
+        var dataPoints = [];
+        var t = apiData.results;
+
+        for (var i = 0; i < t.length; i++) {
+            dataPoints.push({
+                x: new Date(t[i].timestamp),
+                y: t[i].value
+            });
+        }
+
+        dataSeries.dataPoints = dataPoints;
+        chart.render();
+    }
+});
+} // end of - window.onload
+</script>
+</head>
 
 <body>
 <div class="container" id="top">
@@ -54,13 +93,13 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/temperature">Thermostat</a></li>
-        <li class="dropdown">
+        <li><a href="/temperature">Thermostat</a></li>
+        <li class="dropdown active">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Graphs <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="/static/graph-daily.html">Daily</a></li>
             <li><a href="/static/graph-hourly.html">Hourly</a></li>
-            <li><a href="/static/graph-one-day.html">One day</a></li>
+            <li class="active"><a href="/static/graph-one-day.html">One day</a></li>
           </ul>
         </li>
       </ul>
@@ -70,37 +109,13 @@
 
 
 <!-- Contents ************************************** -->
-<div class="jumbotron">
-<form id="form" action="/temperature/" method="post">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
-  <div class="well">
-      {{ form.mode.errors }}
-      <!-- {{ form.mode }} maybe onchange can be done somewhere else -->
-      <input name="{{ form.mode.name}}" id="{{ form.mode.id_for_label }}" type="checkbox" onchange="$('#form').submit();" {{ form.mode.value|yesno:"checked,," }}>
-      {% if heater_status == 'on' %}
-        <img src="/static/img/fire.png" style="height:35px">
-      {% endif %}
-  </div>
+<div class="double-border"></div>
 
-  <div class="well">
-    {{ form.target_temperature.errors }}
-    <h1>
-      <!--{{ form.target_temperature }}-->
-      <input name="{{ form.target_temperature.name }}" id="{{ form.target_temperature.id_for_label }}" data-slider-id="target-temperature-slider" type="number" data-slider-min="18" data-slider-max="22" data-slider-step="0.1" data-slider-value="{{ form.target_temperature.value }}"/>
-      <img src="/static/img/thermometer.png" style="height:64px">
-    </h1>
-    <h4>
-      <span class="label label-warning">{{ current_temperature.value }}º ({{ current_temperature.timestamp|date:"H:i d/m/Y" }})</span>
-    </h6>
-    <div class="row">
-      <input type="submit" class="btn btn-primary" value="Apply" />
-    </div>
-  </div>
-</form>
-</div>
 
+<!-- Footer
+================================================== -->
 <!-- Footer **************************************** -->
 <footer>
   <p class="pull-right"><a href="#top">Back to top</a></p>
@@ -111,15 +126,15 @@
   </div>
 </footer>
 
-
 </div><!-- /container -->
 
-<!-- Bootstrap core JavaScript******************** -->
+
+<!-- JavaScript
+================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-switch.min.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-slider.min.js"></script>
+<script type="text/javascript" src="/static/js/canvasjs.min.js"></script>
 
 </body>
 </html>

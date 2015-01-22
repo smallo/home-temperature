@@ -27,7 +27,7 @@ window.onload = function () {
 var chart = new CanvasJS.Chart("chartContainer");
 
 chart.options.axisY = { suffix: "ºC" };
-chart.options.title = { text: "Daily temperature" };
+chart.options.title = { text: "Hourly temperature" };
 chart.options.axisX = { valueFormatString: "HH DD/MM/YYYY", labelAngle: -50 };
 
 var averageSeries = {
@@ -101,6 +101,7 @@ $.ajax({
           <ul class="dropdown-menu" role="menu">
             <li><a href="/static/graph-daily.html">Daily</a></li>
             <li class="active"><a href="/static/graph-hourly.html">Hourly</a></li>
+            <li><a href="/static/graph-one-day.html">One day</a></li>
           </ul>
         </li>
       </ul>
