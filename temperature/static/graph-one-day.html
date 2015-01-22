@@ -24,11 +24,20 @@
 
 <script type="text/javascript">
 window.onload = function () {
-var chart = new CanvasJS.Chart("chartContainer");
-
-chart.options.axisY = { suffix: "ºC" };
-chart.options.title = { text: "Last day temperature" };
-chart.options.axisX = { valueFormatString: "HH:mm", labelAngle: -50 };
+var chart = new CanvasJS.Chart("chartContainer", {
+    axisY: {
+        suffix: "ºC"
+    },
+    title: {
+        text: "Last day temperature"
+    },
+    axisX: {
+        valueFormatString: "HH:mm",
+        labelAngle: -50
+    },
+    zoomEnabled: true,
+    panEnabled: true,
+});
 
 var dataSeries = {
     type: "line",
