@@ -16,4 +16,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^temperature/', include('temperature.urls', namespace='temperature')),
+
+    # ex: /temperature/login
+    url(r'^temperature/login/$', 'django.contrib.auth.views.login', {'template_name': 'temperature/login.html'}),
 )

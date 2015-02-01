@@ -1,5 +1,5 @@
 from django import forms
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from datetime import datetime, timedelta
 
 from models import Temperature, Configuration
@@ -15,6 +15,9 @@ class SettingsForm(forms.Form):
 
 def index(request):
     if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return redirect('/temperature/login/?next=%s' % request.path)
+
         form = SettingsForm(request.POST)
         if form.is_valid():
             set_mode(Configuration.MODE_ON if form.cleaned_data['mode'] else Configuration.MODE_OFF, False)

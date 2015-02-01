@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/img/fire.png">
+
+    <title>Home temperature</title>
+
+    <!-- CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Specific css for this home temperature -->
+    <link href="/static/css/home-temperature.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+
+<body>
+<div class="container" id="top">
+
+<!-- Navbar **************************************** -->
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/temperature">Home temperature</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/temperature">Thermostat</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Graphs <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/static/graph-daily.html">Daily</a></li>
+            <li><a href="/static/graph-hourly.html">Hourly</a></li>
+            <li><a href="/static/graph-one-day.html">One day</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container-fluid -->
+</nav>
+
+
+<!-- Contents ************************************** -->
+<div class="jumbotron">
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+{% csrf_token %}
+<div class="well">
+  <div class="row">
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td>
+  </div>
+  <div class="row">
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td>
+  </div>
+
+  <div class="row">
+    <input type="submit" class="btn btn-primary" value="login" />
+  </div>
+  <input type="hidden" name="next" value="{{ next }}" />
+</div>
+</form>
+
+
+<!-- Footer **************************************** -->
+<footer>
+  <p class="pull-right"><a href="#top">Back to top</a></p>
+  <div class="links">
+    <a href="https://github.com/smallo/home-temperature">Source code @ github</a> ** 
+    <a href="http://iconka.com/">Iconka</a> ** 
+    <a href="http://www.aha-soft.com/free-icons/free-3d-glossy-icon-set/">aha-soft</a>
+  </div>
+</footer>
+
+
+</div><!-- /container -->
+
+<!-- Bootstrap core JavaScript******************** -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+
+</body>
+</html>
