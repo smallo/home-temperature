@@ -3,6 +3,15 @@ home-temperature
 Use a Raspberry to read the temperature from a sensor, store it and show some graphs.
 
 
+Electronics
+===========
+Temperature sensor circuit:
+![Temperature Sensor Circuit](./doc/diagrams/temperature-sensor.png "temperature sensor circuit diagram")
+
+Switch circuit:
+![Switch Circuit](./doc/diagrams/switch.png "switch circuit diagram")
+
+
 Installation
 ============
 Install MySQL DB:
