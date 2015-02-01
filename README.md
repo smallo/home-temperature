@@ -1,19 +1,29 @@
-home-temperature
+Home Temperature
 ================
-Use a Raspberry to read the temperature from a sensor, store it and show some graphs.
+Use a Raspberry Pi to read the temperature from a sensor, store it and show some graphs. Then a thermostat software is used to switch on/off a boiler, so a constant target temperature can be mantained at home.
 
+
+Hardware
+========
 
 Electronics
-===========
-Temperature sensor circuit:
+-----------
+### Temperature sensor circuit
 ![Temperature Sensor Circuit](./doc/diagrams/temperature-sensor.png "temperature sensor circuit diagram")
 
-Switch circuit:
+### Switch circuit
 ![Switch Circuit](./doc/diagrams/switch.png "switch circuit diagram")
 
+Boxing
+------
+Coming soon
+
+
+Software
+========
 
 Installation
-============
+------------
 Install MySQL DB:
 ```
 sudo apt-get install mysql-server
@@ -56,7 +66,7 @@ python manage.py loaddata temperature/fixtures/configuration.json
 
 
 Executing
-=========
+---------
 *Live*:
 ```
 sudo su
@@ -75,7 +85,7 @@ Or if you want to listen to all network interfaces:
 
 
 Boot scripts
-============
+------------
 In order to runserver and take_samples to run when the system starts up:
 
 ```
@@ -89,8 +99,7 @@ update-rc.d home-temperature-take-samples defaults
 
 
 URLs
-====
- - http://erio.dyndns.org/temperature/graph
- - http://localhost:8000/temperature/graph/
- - http://localhost:8000/temperature/
+----
+ - http://erio.dyndns.org/temperature
+ - http://localhost:8000/temperature
  - http://localhost:8000/admin
