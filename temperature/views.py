@@ -20,10 +20,10 @@ def index(request):
 
         form = SettingsForm(request.POST)
         if form.is_valid():
-            set_mode(Configuration.MODE_ON if form.cleaned_data['mode'] else Configuration.MODE_OFF, False)
+            set_mode(Configuration.MODE_AUTO_SWITCH_OFF if form.cleaned_data['mode'] else Configuration.MODE_OFF, False)
             set_target_temperature(form.cleaned_data['target_temperature'], True)
     else:
-        mode = Configuration.MODE_ON == Configuration.objects.filter(key=Configuration.MODE)[0].value
+        mode = Configuration.MODE_AUTO_SWITCH_OFF == Configuration.objects.filter(key=Configuration.MODE)[0].value
         target_temperature = Configuration.objects.filter(key=Configuration.TARGET_TEMPERATURE)[0].value
         form = SettingsForm(initial={'mode': mode, 'target_temperature': target_temperature})
 

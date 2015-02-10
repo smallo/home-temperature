@@ -6,6 +6,7 @@ from datetime import datetime
 from readers import TempReaderDS18B20, TempReaderMock
 from activators import ActivatorRpiGpio, ActivatorMock
 from models import Configuration, Temperature, TemperatureHourly, TemperatureDaily, TemperatureMonthly
+import modes
 
 
 if settings.USE_MOCK:
@@ -18,12 +19,17 @@ else:
 
 def set_mode(mode, doActivate=True):
     #First let's validate input data
-    if((mode != Configuration.MODE_ON) and (mode != Configuration.MODE_OFF)):
-        raise ValueError('mode could only be on or off')
+    if((mode != Configuration.MODE_ON)
+            and (mode != Configuration.MODE_OFF)
+            and (mode != Configuration.MODE_AUTO_SWITCH_OFF)):
+        raise ValueError('not supported mode')
 
     c = Configuration.objects.filter(key=Configuration.MODE)[0]
     c.value = mode
     c.save()
+
+    class_mode = getattr(modes, mode)
+    class_mode.start()
 
     if doActivate:
         activate_heater_if_necessary()
@@ -68,7 +74,10 @@ def activate_heater_if_necessary():
         thermostat_on = (current_temperature < (target_temperature - hysteresis_threshold))
     print 'Is thermostat on?: {0}'.format(thermostat_on)
 
-    should_activate = thermostat_on and (mode == Configuration.MODE_ON)
+    class_mode = getattr(modes, mode)
+    is_on = class_mode.is_on()
+    print 'is On?: {0}'.format(is_on)
+    should_activate = thermostat_on and is_on
     print 'Should heater be on?: {0}'.format(should_activate)
 
 

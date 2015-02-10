@@ -30,9 +30,12 @@ class Configuration(models.Model):
     TARGET_TEMPERATURE = 'target_temperature'
     HYSTERESIS_THRESHOLD = 'hysteresis_threshold'
     HEATER_STATUS = 'heater_status' # This is not realy a configuration field, this is for keeping the status of the heater
-    MODE_ON = 'on'
-    MODE_OFF = 'off'
+    MODE_ON = 'On'
+    MODE_OFF = 'Off'
+    MODE_AUTO_SWITCH_OFF = 'AutoSwitchOff'
+    MODE_SETTINGS_AUTO_SWITCH_OFF_TIME = 'mode_settings_autoswitchoff_time'
+    MODE_SETTINGS_AUTO_SWITCH_OFF_DATETIME = 'mode_settings_autoswitchoff_datetime'
     HEATER_ON = 'on'
     HEATER_OFF = 'off'
-    key = models.CharField(max_length=25, unique=True)
+    key = models.CharField(max_length=40, unique=True)
     value = models.CharField(max_length=200)
