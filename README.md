@@ -49,6 +49,12 @@ w1_gpio
 w1_therm
 ```
 
+```shell
+sudo vi /boot/config.txt
+dtoverlay=w1-gpio
+```
+
+
 Install python libraries and run the server
 ```shell
 sudo apt-get install python-pip
